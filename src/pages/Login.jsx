@@ -1,20 +1,26 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useAuth } from "../auth/AuthContext";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-    const navigate = useNavigate()
-    const handleLogin = ()=>{
-        const fakeToken ='123abc'
-        const fakeUser = 'khalid'
-        log
-    }
+export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    const fakeToken = "abc123";
+    const fakeUser = { name: "khalid" };
+
+    login(fakeToken, fakeUser);
+    navigate("/dashboard");
+  };
+
   return (
     <div>
-        <input type='email' />
-        <input type="password" />
-        <button onClick={handleLogin}>Login</button>
-    </div>
-  )
-}
+      <h1>Login Page</h1>
 
-export default Login
+      <input placeholder="email" />
+      <input placeholder="password" />
+
+      <button onClick={handleLogin}>Login</button>
+    </div>
+  );
+}
