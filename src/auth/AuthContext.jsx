@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
       setToken(savedToken);
       setUser({ name: "khalid" });
     }
-    // console.log(localStorage('token'))
+
 
     setLoading(false);
   }, []);
