@@ -19,7 +19,7 @@ export const AuthProvider = ({children})=>{
     setLoading(false)
   },[])
 
-  const login = async(email, password){
+  const login = async(email, password)=>{
     try{
       const res = await api.post('/login',{
         email,password
