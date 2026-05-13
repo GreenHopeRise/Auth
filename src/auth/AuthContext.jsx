@@ -10,14 +10,29 @@ export const AuthProvider = ({children})=>{
   const isAuthenticated = !!token
 
   // reStoreSession
-  useEffect(()=>{
-    const saveToken = localStorage.getItem('token')
-    if(saveToken){
-      setToken(saveToken)
-      setUser({naem:'khalid'})
+  useEffect(() => {
+  const restoreSession = async () => {
+    const savedToken = localStorage.getItem("token");
+
+    if (!savedToken) {
+      setLoading(false);
+      return;
     }
-    setLoading(false)
-  },[])
+
+    try {
+      setToken(savedToken);
+
+      const res = await api.get("/me");
+      setUser(res.data.user);
+    } catch {
+      logout();
+    }
+
+    setLoading(false);
+  };
+
+  restoreSession();
+}, []);
 
   const login = async(email, password)=>{
     try{
@@ -41,8 +56,8 @@ export const AuthProvider = ({children})=>{
     localStorage.removeItem('token')
   }
   return(
-    <AuthContext value={{user,token,loading,isAuthenticated,login,logout}}>{children}</AuthContext>
+    <AuthContext.Provider value={{user,token,loading,isAuthenticated,login,logout}}>{children}</AuthContext.Provider>
   )
 }
 
-export const useAuth = useContext(AuthContext)
+export const useAuth = ()=>useContext(AuthContext)
