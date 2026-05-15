@@ -4,25 +4,26 @@ import { useAuth } from "../auth/AuthContext";
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
-  const [data, setData] = useState(null);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    const loadData = async () => {
-      const res = await api.get("/dashboard-data");
-      setData(res.data);
-    };
-
-    loadData();
+    api.get("/posts?_limit=5")
+      .then(res => setPosts(res.data))
+      .catch(err => console.log(err));
   }, []);
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Welcome {user?.name}</p>
-
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-
+    <div style={{ padding: "20px" }}>
+      <h1>Dashboard (Practice)</h1>
+      <p>Welcome, <strong>{user?.name}</strong>!</p>
       <button onClick={logout}>Logout</button>
+      <hr />
+      <h3>Your Posts:</h3>
+      <ul>
+        {posts.map(post => (
+          <li key={post.id}><strong>{post.title}</strong></li>
+        ))}
+      </ul>
     </div>
   );
 }

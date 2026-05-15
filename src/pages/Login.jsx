@@ -1,29 +1,28 @@
-import React, { useState } from 'react'
-import { useAuth } from '../auth/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useAuth } from '../auth/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
-  const {login} = useAuth()
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword]= useState('')
-  const handleLogin = async()=>{
-    const success = await login(email,password)
-    if(success){
-      navigate('/dashboard')
-    }else{
-      alert('login faild')
+export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    const success = await login(email, password);
+    if (success) {
+      navigate('/dashboard');
+    } else {
+      alert('Login Failed!');
     }
-  }
+  };
 
   return (
-    <div>
-      <h1>Login Page</h1>
-      <input type="email" name="" id="" placeholder='Enter Email' value={email} onChange={(e)=>setEmail(e.target.value)} />
-      <input type="password" name="" id="" placeholder='Enter Password' value={password} onChange={(e)=>setPassword(e.target.value)} />
+    <div style={{ padding: "50px" }}>
+      <h2>Practice Login</h2>
+      <input type="email" placeholder="Email" onChange={(e)=>setEmail(e.target.value)} /><br/><br/>
+      <input type="password" placeholder="Pass" onChange={(e)=>setPassword(e.target.value)} /><br/><br/>
       <button onClick={handleLogin}>Login</button>
     </div>
-  )
+  );
 }
-
-export default Login
