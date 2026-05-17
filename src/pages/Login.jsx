@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { loginUser } from "../services/auth.service";
 import { useAuth } from "../auth/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const {setUser} = useAuth()
+    const navigare = useNavigate()
+    // const {setUser} = useAuth()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -11,7 +13,8 @@ const Login = () => {
     e.preventDefault()
     try {
         const user = await loginUser(email, password)
-        setUser(user)
+        navigare('/dashboard')
+        // setUser(user)
     } catch (error) {
         setError(error.message)
         
@@ -42,6 +45,9 @@ const Login = () => {
         />
         <button type="submit" >Login</button>
       </form>
+      <p>
+  No account? <Link to="/register">Register</Link>
+</p>
     </div>
   );
 };
